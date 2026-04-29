@@ -1,4 +1,4 @@
-const TARGET_BASE = (Netlify.env.get("TARGET_DOMAIN") || "").replace(/\/$/, "");
+const DEST_BASE = (Netlify.env.get("DEST") || "").replace(/\/$/, "");
 
 const STRIP_HEADERS = new Set([
   "host",
@@ -17,13 +17,13 @@ const STRIP_HEADERS = new Set([
 ]);
 
 export default async function handler(request) {
-  if (!TARGET_BASE) {
-    return new Response("Misconfigured: TARGET_DOMAIN is not set", { status: 500 });
+  if (!DEST_BASE) {
+    return new Response("Misconfigured: DEST is not set", { status: 500 });
   }
 
   try {
     const url = new URL(request.url);
-    const targetUrl = TARGET_BASE + url.pathname + url.search;
+    const targetUrl = DEST_BASE + url.pathname + url.search;
 
     const headers = new Headers();
     let clientIp = null;
